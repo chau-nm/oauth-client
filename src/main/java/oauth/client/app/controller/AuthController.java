@@ -22,10 +22,6 @@ public class AuthController {
 
     @GetMapping("/oauth")
     public String oauth2SignIn(@AuthenticationPrincipal OAuth2AuthenticationToken authentication) {
-        if (authentication == null) {
-            return "redirect:/login";
-        }
-
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -38,7 +34,7 @@ public class AuthController {
         ResponseEntity<String> response =
             restTemplate.exchange("http://localhost:8081/hello", HttpMethod.GET, entity, String.class);
 
-    return "Success  :: " + response.getBody();
+        return "Success  :: " + response.getBody();
     }
 
 }
