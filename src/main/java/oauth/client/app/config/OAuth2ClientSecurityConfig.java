@@ -16,26 +16,6 @@ import org.springframework.security.oauth2.core.oidc.OidcScopes;
 @EnableWebSecurity
 public class OAuth2ClientSecurityConfig {
 
-    // @Bean
-    // public SecurityFilterChain oauth2SecutiryFilterChain(HttpSecurity http) throws Exception {
-    //     http
-    //         .authorizeHttpRequests((authorize) -> 
-    //             authorize
-    //                 .requestMatchers("/login/oauth2/code/demo-client")
-    //                 .permitAll()
-    //                 .anyRequest()
-    //                 .authenticated()
-    //         )
-    //         .oauth2Login(oauth2 -> 
-    //             oauth2
-    //                 .defaultSuccessUrl("/auth/oauth")
-    //                 .failureUrl("/login?error")
-    //         )
-    //         .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
-
-    //     return http.build();
-    // }
-
     @Bean
     public ClientRegistrationRepository clientRegistrationRepository() {
         return new InMemoryClientRegistrationRepository(getClientRegistration());
@@ -56,8 +36,9 @@ public class OAuth2ClientSecurityConfig {
         .redirectUri("http://127.0.0.1:8082/login/oauth2/code/demo-client")
         .authorizationUri("http://localhost:8080/oauth2/authorize")
         .tokenUri("http://localhost:8080/oauth2/token")
-        .userNameAttributeName("sub")
+        .userInfoUri("http://localhost:8080/userinfo")
         .jwkSetUri("http://localhost:8080/oauth2/jwks")
+        .scope(OidcScopes.PROFILE)
         .scope(OidcScopes.OPENID)
         .build();
 

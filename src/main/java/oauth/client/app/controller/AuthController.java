@@ -1,13 +1,13 @@
 package oauth.client.app.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +21,7 @@ public class AuthController {
     private OAuth2AuthorizedClientService oauth2AuthorizedClientService;
 
     @GetMapping("/oauth")
-    public String oauth2SignIn(@AuthenticationPrincipal OAuth2AuthenticationToken authentication) {
+    public String oauth2SignIn(Authentication authentication) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -34,7 +34,7 @@ public class AuthController {
         ResponseEntity<String> response =
             restTemplate.exchange("http://localhost:8081/hello", HttpMethod.GET, entity, String.class);
 
-        return "Success  :: " + response.getBody();
+        return response.getBody();
     }
 
 }
